@@ -1,4 +1,4 @@
-local Update = 204
+local Update = 205
 local DiscordUrl = "https://discord.gg/yaufrjs"
 local LicenseUrl = "http://127.0.0.1:3010/api/verify"
 
@@ -315,7 +315,8 @@ local function PromptKey(Id)
 		Status.Text = DiscordUrl
 	end)
 	local Finished, Accepted, Checking = false, false, false
-	Button.MouseButton1Click:Connect(function()
+	local AutoTried = false
+	local function TryCheck()
 		if Checking or Finished then
 			return
 		end
@@ -341,6 +342,14 @@ local function PromptKey(Id)
 				Status.Text = Message
 			end
 		end
+	end
+	Button.MouseButton1Click:Connect(TryCheck)
+	task.delay(3, function()
+		if AutoTried or Finished or not Gui.Parent then
+			return
+		end
+		AutoTried = true
+		TryCheck()
 	end)
 	while not Finished and Gui.Parent do
 		task.wait(0.1)
