@@ -1,4 +1,4 @@
-local Update = 187
+local Update = 188
 local DiscordUrl = "https://discord.gg/yaufrjs"
 local LicenseUrl = "http://127.0.0.1:3010/api/verify"
 
@@ -145,7 +145,7 @@ local function AskServer(Key, Id)
 			["Content-Type"] = "application/json",
 			["User-Agent"] = "Mozilla/5.0",
 		},
-		Body = Http:JSONEncode({ key = Key, hwid = Id }),
+		Body = Http:JSONEncode({ key = Key, hwid = Id, issue = true }),
 	})
 	if not Ok or type(Res) ~= "table" then
 		return false, ReasonText("down")
@@ -161,6 +161,7 @@ local function AskServer(Key, Id)
 	local Code = tonumber(Res.StatusCode or Res.Status or Res.status_code)
 	if Code == 200 and type(Parsed) == "table" and Parsed.ok == true and type(Parsed.tool) == "string" and string.find(Parsed.tool, "local Update", 1, true) then
 		if getgenv then
+			getgenv().YaufrjsKey = Key
 			getgenv().YaufrjsGrant = true
 		end
 		local Fn = loadstring(Parsed.tool)
