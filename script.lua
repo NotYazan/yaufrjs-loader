@@ -1,4 +1,4 @@
-local Update = 217
+local Update = 218
 local DiscordUrl = "https://discord.gg/yaufrjs"
 local LicenseUrl = "http://127.0.0.1:3010/api/verify"
 
